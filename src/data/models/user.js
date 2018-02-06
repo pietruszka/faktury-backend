@@ -19,12 +19,22 @@ class UserModel {
                 nip: Number,
                 regon: Number,
                 street: String,
-                hauseNumber: Number,
+                houseNumber: Number,
                 flatNumber: Number,
                 city: String,
             }
         });
     }
+
+    userSchema.methods.generateHash = function(password) {
+        return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
+    };
+
+    userSchema.methods.validPassword = function(password) {
+        return bcrypt.compareSync(password, this.local.password);
+    };
 }
+
+
 
 module.exports = UserModel;
