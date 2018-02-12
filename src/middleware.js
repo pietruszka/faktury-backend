@@ -1,7 +1,10 @@
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const expressValidator = require("express-validator");
+const morgan = require('morgan');
 const Router = require("express").Router;
+const fileUpload = require('express-fileupload');
+
 const db = require("./data/db");
 const logger = require("./data/logger");
 
@@ -13,8 +16,9 @@ class Middleware {
 
     _initMiddleware() {
         this.router.use(cors());
+        this.router.use(morgan('combined'))
         this.router.use(bodyParser.json({
-            limit: "100kb",
+            limit: '5mb',
             type: "application/json",
         }));
         this.router.use(bodyParser.urlencoded({ extended: false }))

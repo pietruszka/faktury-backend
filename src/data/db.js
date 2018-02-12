@@ -3,6 +3,7 @@ const config = require("./config");
 const logger = require("./logger");
 const UserModel = require("./models/user");
 const InvoiceModel = require("./models/invoice");
+const VehicleModel = require("./models/vehicle");
 
 class DB {
     constructor() {
@@ -35,6 +36,7 @@ class DB {
     loadSchame() {
         this.userModel = new UserModel(this.connection).getModel();
         this.invoiceModel = new InvoiceModel(this.connection).getModel();
+        this.vehicleModel = new VehicleModel(this.connection).getModel();
     }
 }
 
