@@ -25,10 +25,12 @@ const addInvoice = async (req, res) => {
         .exists()
         .custom(value => {
             return new Promise((resolve, reject) => {
-                Invoice.findOne({invoiceNumber: value}, (err, result) => {
-                    if(result) reject();
-                    else resolve();
-                });
+                if(req.body.type === "income") {
+                    Invoice.findOne({invoiceNumber: value}, (err, result) => {
+                        if(result) reject();
+                        else resolve();
+                    });
+                } else resolve();
             });
         })
         .withMessage("Invoice number should be unique");
@@ -127,9 +129,8 @@ const getAllInvoices = async (req, res) => {
 
     let type = req.query.type;
 
-
     let user = await User.findById(req.user);
-    let userInvoices = user.invoices.map(element => new mongoose.mongo.ObjectId(element));
+    let userInvoices = user.invoices.map(e => new mongoose.mongo.ObjectId(e));
     let result;
     let searchQuery = {
         _id: {
@@ -139,13 +140,13 @@ const getAllInvoices = async (req, res) => {
     if(type) searchQuery.isExpense = type === "expense";
 
     result = await Invoice.find(searchQuery);
-    result = result.map(element => element.toObject());
-    result = result.map(element => {
-        const { net, gross } = _countValue(element.items);
-        element.net = net;
-        element.gross = gross;
-        element.file = element.file.map(element => `${config.UPLOAD_PATH}${element}`);
-        return element;
+    result = result.map(e => e.toObject());
+    result = result.map(e => {
+        const { net, gross } = _countValue(e.items);
+        e.net = net;
+        e.gross = gross;
+        e.file = e.file.map(e => `${config.UPLOAD_PATH}${e}`);
+        return e;
     });
     res.json({
         success: true,
@@ -157,8 +158,8 @@ const getInvoice = async (req, res) => {
     let invoiceID = req.params.id;
     let user = await User.findById(req.user);
     let userInvoices = user.invoices
-        .filter(element => element.toString() === invoiceID)
-        .map(element => new mongoose.mongo.ObjectId(element));
+        .filter(e => e.toString() === invoiceID)
+        .map(e => new mongoose.mongo.ObjectId(e));
     let result = await Invoice.findOne({_id: userInvoices[0]});
     result = result.toObject();
 
@@ -166,10 +167,34 @@ const getInvoice = async (req, res) => {
 
     result.net = net;
     result.gross = gross;
-    result.file = result.file.map(element => `${config.UPLOAD_PATH}${element}`);
+    result.file = result.file.map(e => `${config.UPLOAD_PATH}${e}`);
     res.json({
         success: true,
         data: result
+    })
+};
+
+const removeInvoice = async (req, res) => {
+    req.checkParams('id').exists();
+
+    const validationResult = await req.getValidationResult();
+
+    if(!validationResult.isEmpty()) {
+        return res.status(422).json({
+            success: false,
+            errors: validationResult.mapped()});
+    }
+    let id = req.params.id;
+    await Invoice.findByIdAndRemove(id);
+
+    let user = await User.findById(req.user);
+    let userInvoices = user.invoices;
+    let newUserInvoices = userInvoices.filter(e => e.toString() !== id );
+    await User.findByIdAndUpdate(req.user, {$set: {invoices: newUserInvoices}});
+
+    res.json({
+        success: true,
+        message: "Removed invoice"
     })
 };
 
@@ -195,4 +220,5 @@ module.exports = {
     addInvoiceItem,
     getAllInvoices,
     getInvoice,
+    removeInvoice,
 };

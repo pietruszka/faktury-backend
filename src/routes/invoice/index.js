@@ -5,6 +5,7 @@ const {
     getAllInvoices,
     getInvoice,
     addInvoiceItem,
+    removeInvoice
 } = require('./controller');
 
 class InvoiceRouter {
@@ -14,6 +15,7 @@ class InvoiceRouter {
         this.router.post('/api/invoice/item', authCheck, addInvoiceItem);
         this.router.get('/api/invoice', authCheck, getAllInvoices);
         this.router.get('/api/invoice/:id', authCheck, getInvoice);
+        this.router.delete('/api/invoice/:id', authCheck, removeInvoice);
     }
 
     getRouter() {
