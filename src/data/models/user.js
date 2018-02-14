@@ -14,15 +14,20 @@ class UserModel {
             password: String,
             invoices: [mongoose.Schema.Types.ObjectId],
             vehicles: [mongoose.Schema.Types.ObjectId],
-            settings: {
-                companyName: String,
-                nip: Number,
-                regon: Number,
+            company : {
+                name: String,
+                nip: String,
+                regon: String,
                 street: String,
-                hauseNumber: Number,
-                flatNumber: Number,
+                buildingNumber: String,
+                flatNumber: String,
                 city: String,
-            }
+                postalCode: String
+            },
+            isConfirmed: {
+                type: Boolean,
+                default: false,
+            },
         });
     }
 }

@@ -1,14 +1,13 @@
 const router = require("express").Router;
 const authCheck = require('./../authMiddleware');
 const {
-    changeUserData,
-    getUserData,
+    addVehicle
 } = require("./controller");
 class UserRouter {
     constructor() {
         this.router = router();
-        this.router.put('/api/user', authCheck, changeUserData);
-        this.router.get('/api/user', authCheck, getUserData);
+        this.router.post('/api/vehicle', authCheck, addVehicle);
+
     }
 
     getRouter() {
