@@ -11,33 +11,32 @@ const generatePDFInvoice = async (req, res) => {
     req.checkParams('invoice').exists();
     let _invoice = await Invoice.findById(req.params.invoice);
     let doc = new PDFdocument();
-    doc.pipe(fs.createWriteStream('output.pdf'))
-        doc
-            .fontSize(25)
-            .text(`Faktura nr ${_invoice.invoiceNumber}`, {align: 'center'})
-            .fontSize(15)
-            .text(`Data wystawienia:  ${_invoice.dateCreated.toISOString().split('T')[0]}`, {align: 'right'})
-            .fontSize(15)
-            .text(`Miejsce wystawienia:  ${_invoice.createdPlace}`, {align: 'right'})
-            .moveDown()
-
-        _generateSellerData(doc, 50, 200, {
-            contractor: _invoice.contractor,
-            place: _invoice.place,
-            postalCode: _invoice.postalCode,
-            city: _invoice.city,
-            nip: _invoice.nip,
-            phone: _invoice.phone
-        });
-
-        _generateBuyerData(doc, 400,200, {
-            contractor: _invoice.contractor,
-            place: _invoice.place,
-            postalCode: _invoice.postalCode,
-            city: _invoice.city,
-            nip: _invoice.nip,
-            phone: _invoice.phone
-        });
+        //doc
+        //     .fontSize(25)
+        //     .text(`Faktura nr ${_invoice.invoiceNumber}`, {align: 'center'})
+        //     .fontSize(15)
+        //     .text(`Data wystawienia:  ${_invoice.dateCreated.toISOString().split('T')[0]}`, {align: 'right'})
+        //     .fontSize(15)
+        //     .text(`Miejsce wystawienia:  ${_invoice.createdPlace}`, {align: 'right'})
+        //     .moveDown()
+        //
+        // _generateSellerData(doc, 50, 200, {
+        //     contractor: _invoice.contractor,
+        //     place: _invoice.place,
+        //     postalCode: _invoice.postalCode,
+        //     city: _invoice.city,
+        //     nip: _invoice.nip,
+        //     phone: _invoice.phone
+        // });
+        //
+        // _generateBuyerData(doc, 400,200, {
+        //     contractor: _invoice.contractor,
+        //     place: _invoice.place,
+        //     postalCode: _invoice.postalCode,
+        //     city: _invoice.city,
+        //     nip: _invoice.nip,
+        //     phone: _invoice.phone
+        // });
     doc.moveTo(50, 140)
         .lineTo(570,140)
         .stroke()
@@ -46,7 +45,7 @@ const generatePDFInvoice = async (req, res) => {
         .fontSize(25)
         .text('Here is some vector gra1111phics...', 100, 100)
     doc.end()
-    res.send('ok')
+    doc.pipe(res);
 };
 
 const _generateSellerData = (doc, x, y, data) => {

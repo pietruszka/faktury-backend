@@ -82,16 +82,17 @@ const getUserData = async (req, res) => {
         $project: {
             _id: 0,
             email: 1,
-            companyName: 1,
-            nip: 1,
-            regon: 1,
-            street: 1,
-            buildingNumber: 1,
-            flatNumber: 1,
-            city: 1,
-            postalCode: 1,
+            // companyName: 1,
+            // nip: 1,
+            // regon: 1,
+            // street: 1,
+            // buildingNumber: 1,
+            // flatNumber: 1,
+            // city: 1,
+            // postalCode: 1,
             userInvoices: 1,
-            userVehicles: 1
+            userVehicles: 1,
+            company: 1
         }
     }]);
 
