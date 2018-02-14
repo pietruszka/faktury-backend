@@ -115,7 +115,7 @@ const addInvoiceItem = async (req, res) => {
 };
 
 const getAllInvoices = async (req, res) => {
-    req.checkQuery('type').exists();
+    req.checkQuery('type').optional();
 
     const validationResult = await req.getValidationResult();
 
@@ -126,16 +126,19 @@ const getAllInvoices = async (req, res) => {
     }
 
     let type = req.query.type;
+
+
     let user = await User.findById(req.user);
     let userInvoices = user.invoices.map(element => new mongoose.mongo.ObjectId(element));
     let result;
-
-    result = await Invoice.find({
+    let searchQuery = {
         _id: {
             $in: userInvoices
-        },
-        isExpense: type === "expense"
-    });
+        }
+    };
+    if(type) searchQuery.isExpense = type === "expense";
+
+    result = await Invoice.find(searchQuery);
     result = result.map(element => element.toObject());
     result = result.map(element => {
         const { net, gross } = _countValue(element.items);
