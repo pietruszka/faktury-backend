@@ -115,17 +115,7 @@ const addInvoiceItem = async (req, res) => {
 };
 
 const getAllInvoices = async (req, res) => {
-    req.checkQuery('type').exists();
 
-    const validationResult = await req.getValidationResult();
-
-    if(!validationResult.isEmpty()) {
-        return res.status(422).json({
-            success: false,
-            errors: validationResult.mapped()});
-    }
-
-    let type = req.query.type;
     let user = await User.findById(req.user);
     let userInvoices = user.invoices.map(element => new mongoose.mongo.ObjectId(element));
     let result;
@@ -133,8 +123,7 @@ const getAllInvoices = async (req, res) => {
     result = await Invoice.find({
         _id: {
             $in: userInvoices
-        },
-        isExpense: type === "expense"
+        }
     });
     result = result.map(element => element.toObject());
     result = result.map(element => {
