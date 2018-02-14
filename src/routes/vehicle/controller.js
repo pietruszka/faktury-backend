@@ -59,6 +59,31 @@ const addVehicle = async (req, res) => {
 
 };
 
+const removeVehicle = async (req, res) => {
+    req.checkParams('id').exists();
+
+    const validationResult = await req.getValidationResult();
+
+    if(!validationResult.isEmpty()) {
+        return res.status(422).json({
+            success: false,
+            errors: validationResult.mapped()});
+    }
+    let id = req.params.id;
+    await Vehicle.findByIdAndRemove(id);
+
+    let user = await User.findById(req.user);
+    let userVehicles = user.vehicles;
+    let newUserVehicles = userVehicles.filter(e => e.toString() !== id );
+    await User.findByIdAndUpdate(req.user, {$set: {vehicles: newUserVehicles}});
+
+    res.json({
+        success: true,
+        message: "Removed vehicle"
+    })
+};
+
 module.exports = {
     addVehicle,
+    removeVehicle
 };

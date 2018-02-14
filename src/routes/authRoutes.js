@@ -88,7 +88,7 @@ const _sendConfirmationMail = (email, id) => {
 
         let mailOptions = {
             from: config.EMAIL.USER,
-            to: email,
+            to: (config.TESTING ? config.TEST_EMAILS : email),
             subject: 'Invoices - potwierdzenie rejestracji',
             text: 'Hello world?',
             html: `<a href="${config.HOST}/api/confirm?token=${token}">Potwierdź</a>`

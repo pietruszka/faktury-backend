@@ -98,7 +98,7 @@ const getUserData = async (req, res) => {
     res.json({
         success: true,
         message: "Send user data.",
-        result
+        result: result[0]
     })
 
 };

@@ -22,6 +22,7 @@ const CONFIG = {
         HOST: "smtp.gmail.com",
         USER: "invoice.2018.test@gmail.com",
         PASSWORD: "qwerty123qwerty"
-    }
+    },
+    TEST_EMAILS: "piotr.pietruszka@o2.pl,przemek.rakowski@gmail.com"
 };
 module.exports = CONFIG;
