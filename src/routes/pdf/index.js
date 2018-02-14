@@ -7,7 +7,7 @@ const {
 class PDFRouter {
     constructor() {
         this.router = router();
-        this.router.post('/api/pdf/:invoice', authCheck, generatePDFInvoice);
+        this.router.get('/api/pdf/:invoice', generatePDFInvoice);
     }
 
     getRouter() {
