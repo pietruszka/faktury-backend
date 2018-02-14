@@ -55,7 +55,10 @@ class AuthRouter {
             if(!foundUser) {
                 done(null, false);
             } else {
-                if(bcrypt.compareSync(password, foundUser.password)){
+                if(!foundUser.isConfirmed) {
+                    return done(null, false);
+                }
+                else if(bcrypt.compareSync(password, foundUser.password)){
                     const token = jwt.sign({id: foundUser._id}, config.JWT_SECRET);
                     done(null, token);
                 } else {
@@ -109,7 +112,7 @@ const _sendRecoveryPasswordMail = (email) => {
 
         let mailOptions = {
             from: config.EMAIL.USER,
-            to: email,
+            to: (config.TESTING ? config.TEST_EMAILS : email),
             subject: 'Invoices - zmiana hasła',
             text: 'Hello world?',
             html: `<a href="${config.HOST}/api/change?token=${token}">Zmień hasło</a>`
