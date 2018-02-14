@@ -5,6 +5,7 @@ const config = require('./../../data/config');
 
 const addInvoice = async (req, res) => {
     req.checkBody('type').exists();
+    req.checkBody('description').exists();
     req.checkBody('date.created').exists();
     req.checkBody('date.sold').exists();
     req.checkBody('date.payment').exists();
@@ -42,6 +43,7 @@ const addInvoice = async (req, res) => {
 
     const {
         type,
+        description,
         paymentType,
         contractor,
         invoiceNumber,
@@ -50,6 +52,7 @@ const addInvoice = async (req, res) => {
 
     let _invoice = await new Invoice({
         isExpense: type === 'expense',
+        description,
         invoiceNumber,
         date,
         paymentType,
@@ -171,15 +174,8 @@ const _countValue = (items) => {
     let net = 0;
     let gross = 0;
     if(items.length > 1) {
-        net = items.reduce((prevValue, currValue, index) => {
-            console.log(prevValue)
-            return prevValue.quantity * prevValue.priceNet + currValue.quantity * currValue.priceNet;
-        });
-        gross = items.reduce((prevValue, currValue, index) => {
-            let result = prevValue.quantity * prevValue.priceNet * (1 + prevValue.vat/100) +
-                currValue.quantity * currValue.priceNet * (1 + currValue.vat/100);
-            return result;
-        });
+        net = items.reduce((p, c) => p + c.quantity * c.priceNet,0);
+        gross = items.reduce((p, c) => p + c.quantity * c.priceNet * (1 + c.vat/100),0);
     } else {
         net = items[0].quantity * items[0].priceNet;
         gross = items[0].quantity * items[0].priceNet * (1 + items[0].vat/100);
