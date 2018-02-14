@@ -21,7 +21,6 @@ class InvoiceModel {
             },
             paymentType: {
                 type: String,
-                enum: ['gotówka', 'przelew'],
                 default: 'gotówka',
             },
             contractor: {
