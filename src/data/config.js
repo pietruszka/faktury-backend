@@ -3,7 +3,7 @@ const IS_TEST_MODE = (process.env.TEST_MODE === 'true');
 
 const CONFIG = {
     PORT: (IS_PROD) ? process.env.INVOICE_PORT : 3005,
-    HOST: "http://localhost:3005",
+    HOST: "http://localhost:3000",
     DB_URL: ((IS_PROD) ? process.env.DB_URL : "mongodb://ds245715.mlab.com:45715/hack"),
     DB_URL_AUTH: {
         PASSWORD: "admin",

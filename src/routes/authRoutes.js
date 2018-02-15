@@ -41,8 +41,8 @@ class AuthRouter {
             }
         }));
         this.router.post('/api/register', passport.authenticate('local-register', {
-            successRedirect : '/profile',
-            failureRedirect : '/signup',
+            successRedirect : `${config.HOST}/invoices`,
+            failureRedirect : `${config.HOST}/register`,
         }));
 
         passport.use('local-login',new PassportLocal({
@@ -94,7 +94,7 @@ const _sendConfirmationMail = (email, id) => {
             to: (config.TESTING ? config.TEST_EMAILS : email),
             subject: 'Invoices - potwierdzenie rejestracji',
             text: 'Hello world?',
-            html: `<a href="${config.HOST}/api/confirm?token=${token}">Potwierdź</a>`
+            html: `<a href="http://localhost:${config.PORT}/api/confirm?token=${token}">Potwierdź</a>`
         };
 
         transporter.sendMail(mailOptions, (error, info) => {

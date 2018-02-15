@@ -9,6 +9,15 @@ const config = require('./../../data/config');
 
 const generatePDFInvoice = async (req, res) => {
     req.checkParams('invoice').exists();
+
+    const validationResult = await req.getValidationResult();
+
+    if(!validationResult.isEmpty()) {
+        return res.status(422).json({
+            success: false,
+            errors: validationResult.mapped()});
+    }
+
     let _invoice = await Invoice.findById(req.params.invoice);
     let doc = new PDFdocument();
         //doc
