@@ -63,7 +63,11 @@ const addInvoice = async (req, res) => {
         file: (req.body.file ? req.body.file : [])
     }).save();
 
-    await User.findByIdAndUpdate(req.user, {$addToSet: {invoices: new mongoose.mongo.ObjectId(_invoice._id)}})
+    await User.findByIdAndUpdate(req.user, {
+        $addToSet: {
+            invoices: new mongoose.mongo.ObjectId(_invoice._id)
+        }
+    });
 
     return res.status(200).json({
         success: true,
@@ -190,7 +194,11 @@ const removeInvoice = async (req, res) => {
     let user = await User.findById(req.user);
     let userInvoices = user.invoices;
     let newUserInvoices = userInvoices.filter(e => e.toString() !== id );
-    await User.findByIdAndUpdate(req.user, {$set: {invoices: newUserInvoices}});
+    await User.findByIdAndUpdate(req.user, {
+        $set: {
+            invoices: newUserInvoices
+        }
+    });
 
     res.json({
         success: true,

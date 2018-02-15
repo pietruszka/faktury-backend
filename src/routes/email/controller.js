@@ -25,9 +25,9 @@ const confirmAccount = async (req, res) => {
         let foundUser = await User.findById(decoded.id);
         if(foundUser) {
             await User.findByIdAndUpdate(decoded.id, {$set: {isConfirmed: true}})
-            res.redirect("/profile");
+            res.redirect(`${config.HOST}/invoices`);
         } else {
-            res.redirect("/register");
+            res.redirect(`${config.HOST}/register`);
         }
     });
 };

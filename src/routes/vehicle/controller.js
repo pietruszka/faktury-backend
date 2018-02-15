@@ -49,7 +49,8 @@ const addVehicle = async (req, res) => {
     await User.findByIdAndUpdate(req.user, {
         $addToSet: {
             vehicles: new mongoose.mongo.ObjectId(_vehicle._id)
-        }})
+        }
+    });
 
 
     res.json({
@@ -75,7 +76,11 @@ const removeVehicle = async (req, res) => {
     let user = await User.findById(req.user);
     let userVehicles = user.vehicles;
     let newUserVehicles = userVehicles.filter(e => e.toString() !== id );
-    await User.findByIdAndUpdate(req.user, {$set: {vehicles: newUserVehicles}});
+    await User.findByIdAndUpdate(req.user, {
+        $set: {
+            vehicles: newUserVehicles
+        }
+    });
 
     res.json({
         success: true,
