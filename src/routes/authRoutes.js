@@ -67,10 +67,10 @@ class AuthRouter {
             }
         }));
         this.router.post('/api/login', passport.authenticate('local-login', {
-            failureRedirect : '/signup',
+            failureRedirect : `${config.HOST}/login`,
         }), (req, res) => {
             res.cookie('token' ,req.user)
-            res.redirect("/profile");
+            res.redirect(`${config.HOST}/invoices`);
         });
 
         this.router.post('/api/changePassword', async (req, res) => {
