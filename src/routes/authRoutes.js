@@ -53,24 +53,21 @@ class AuthRouter {
             let foundUser = await User.findOne({email});
             console.log(foundUser)
             if(!foundUser) {
-                done(null, false);
+                done(null, {success: false});
             } else {
-                if(!foundUser.isConfirmed) {
+                if(foundUser.isConfirmed) {
                     return done(null, false);
                 }
-                else if(bcrypt.compareSync(password, foundUser.password)){
+                if(bcrypt.compareSync(password, foundUser.password)){
                     const token = jwt.sign({id: foundUser._id}, config.JWT_SECRET);
-                    done(null, token);
+                    done(null, {success: true, token});
                 } else {
                     done(null, false);
                 }
             }
         }));
-        this.router.post('/api/login', passport.authenticate('local-login', {
-            failureRedirect : `${config.HOST}/login`,
-        }), (req, res) => {
-            res.cookie('token' ,req.user)
-            res.redirect(`${config.HOST}/invoices`);
+        this.router.post('/api/login', passport.authenticate('local-login'), (req, res) => {
+            res.json(req.user)
         });
 
         this.router.post('/api/changePassword', async (req, res) => {
