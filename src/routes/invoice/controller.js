@@ -149,7 +149,7 @@ const getAllInvoices = async (req, res) => {
         const { net, gross } = _countValue(e.items);
         e.net = net;
         e.gross = gross;
-        e.file = e.file.map(e => `${config.UPLOAD_PATH}${e}`);
+        e.files = e.files.map(e => `${config.UPLOAD_PATH}${e}`);
         return e;
     });
     res.json({
@@ -171,7 +171,7 @@ const getInvoice = async (req, res) => {
 
     result.net = net;
     result.gross = gross;
-    result.file = result.file.map(e => `${config.UPLOAD_PATH}${e}`);
+    result.files = result.files.map(e => `${config.UPLOAD_PATH}${e}`);
     res.json({
         success: true,
         data: result
