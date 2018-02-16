@@ -45,7 +45,7 @@ class InvoiceModel {
                 },
                 priceNet: Number,
             }],
-            file: [String]
+            files: [String]
         });
     }
 }

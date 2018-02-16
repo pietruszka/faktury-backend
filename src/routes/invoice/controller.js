@@ -60,7 +60,7 @@ const addInvoice = async (req, res) => {
         paymentType,
         contractor,
         items: (req.body.items ? req.body.items : []),
-        file: (req.body.file ? req.body.file : [])
+        files: (req.body.files ? req.body.files : [])
     }).save();
 
     await User.findByIdAndUpdate(req.user, {
