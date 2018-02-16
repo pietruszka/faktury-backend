@@ -51,18 +51,17 @@ class AuthRouter {
             passReqToCallback : true,
         }, async (req, email, password, done) => {
             let foundUser = await User.findOne({email});
-            console.log(foundUser)
             if(!foundUser) {
-                done(null, {success: false});
+                done(null, {success: {success: false, message: "Account doesn't exist"}});
             } else {
-                if(foundUser.isConfirmed) {
-                    return done(null, false);
+                if(!foundUser.isConfirmed) {
+                    return done(null, {success: false, message: "Account is not activated"});
                 }
                 if(bcrypt.compareSync(password, foundUser.password)){
                     const token = jwt.sign({id: foundUser._id}, config.JWT_SECRET);
                     done(null, {success: true, token});
                 } else {
-                    done(null, false);
+                    done(null, {success: false, message: "Wrong password"});
                 }
             }
         }));

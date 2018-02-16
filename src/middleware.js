@@ -3,7 +3,6 @@ const cors = require("cors");
 const expressValidator = require("express-validator");
 const morgan = require('morgan');
 const Router = require("express").Router;
-const fileUpload = require('express-fileupload');
 
 const db = require("./data/db");
 const logger = require("./data/logger");
@@ -21,7 +20,7 @@ class Middleware {
             limit: '5mb',
             type: "application/json",
         }));
-        this.router.use(bodyParser.urlencoded({ extended: false }))
+        this.router.use(bodyParser.urlencoded({ extended: false }));
         this.router.use(expressValidator());
         logger;
         db;
