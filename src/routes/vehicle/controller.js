@@ -14,7 +14,7 @@ const addVehicle = async (req, res) => {
                 });
             });
         })
-        .withMessage("Register number should be unique");
+        .withMessage('Register number should be unique');
     req.checkBody('type').exists();
     req.checkBody('ownershipType').exists();
     req.checkBody('volume').exists();
@@ -55,7 +55,7 @@ const addVehicle = async (req, res) => {
 
     res.json({
         success: true,
-        message: "Adding new vehicle"
+        message: 'Adding new vehicle'
     })
 
 };
@@ -84,7 +84,7 @@ const removeVehicle = async (req, res) => {
 
     res.json({
         success: true,
-        message: "Removed vehicle"
+        message: 'Removed vehicle'
     })
 };
 

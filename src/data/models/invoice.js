@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 class InvoiceModel {
     constructor(connection) {
-        this.model = connection.model("Invoice", this._invoiceModel(), "Invoice");
+        this.model = connection.model('Invoice', this._invoiceModel(), 'Invoice');
     }
     getModel() {
         return this.model;

@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require("bcrypt-nodejs");
-const User = (require('./../../data/db').getConnection()).model("User");
+const bcrypt = require('bcrypt-nodejs');
+const User = (require('./../../data/db').getConnection()).model('User');
 const config = require('./../../data/config');
 
 const confirmAccount = async (req, res) => {
@@ -19,7 +19,7 @@ const confirmAccount = async (req, res) => {
         if(err) {
             res.json({
                 success: false,
-                message: "Token err"
+                message: 'Token err'
             });
         }
         let foundUser = await User.findById(decoded.id);
@@ -48,16 +48,16 @@ const changePassword = async (req, res) => {
         if(err) {
             res.json({
                 success: false,
-                message: "Token err"
+                message: 'Token err'
             });
         }
         let foundUser = await User.findOne({email: decoded.email});
         if(foundUser) {
             const token = jwt.sign({id: foundUser._id}, config.JWT_SECRET);
             res.cookie('token' , token);
-            res.redirect("/changepassword");
+            res.redirect('/changepassword');
         } else {
-            res.redirect("/register2");
+            res.redirect('/register2');
         }
     });
 };
@@ -80,7 +80,7 @@ const newPassword = async (req, res) => {
 
     return res.status(200).json({
         success: true,
-        message: "Changed password"
+        message: 'Changed password'
     });
 };
 

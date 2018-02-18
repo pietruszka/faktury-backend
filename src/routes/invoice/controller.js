@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const Invoice = (require('./../../data/db').getConnection()).model("Invoice");
-const User = (require('./../../data/db').getConnection()).model("User");
+const mongoose = require('mongoose');
+const Invoice = (require('./../../data/db').getConnection()).model('Invoice');
+const User = (require('./../../data/db').getConnection()).model('User');
 const config = require('./../../data/config');
 
 const addInvoice = async (req, res) => {
@@ -25,7 +25,7 @@ const addInvoice = async (req, res) => {
         .exists()
         .custom(value => {
             return new Promise((resolve, reject) => {
-                if(req.body.type === "income") {
+                if(req.body.type === 'income') {
                     Invoice.findOne({invoiceNumber: value}, (err, result) => {
                         if(result) reject();
                         else resolve();
@@ -33,7 +33,7 @@ const addInvoice = async (req, res) => {
                 } else resolve();
             });
         })
-        .withMessage("Invoice number should be unique");
+        .withMessage('Invoice number should be unique');
 
     const validationResult = await req.getValidationResult();
 
@@ -71,7 +71,7 @@ const addInvoice = async (req, res) => {
 
     return res.status(200).json({
         success: true,
-        message: "New invoices added"
+        message: 'New invoices added'
     });
 
 };
@@ -115,7 +115,7 @@ const addInvoiceItem = async (req, res) => {
 
     return res.status(200).json({
         success: true,
-        message: "Added new item to invoice"
+        message: 'Added new item to invoice'
     });
 
 };
@@ -141,7 +141,7 @@ const getAllInvoices = async (req, res) => {
             $in: userInvoices
         }
     };
-    if(type) searchQuery.isExpense = type === "expense";
+    if(type) searchQuery.isExpense = type === 'expense';
 
     result = await Invoice.find(searchQuery);
     result = result.map(e => e.toObject());
@@ -202,7 +202,7 @@ const removeInvoice = async (req, res) => {
 
     res.json({
         success: true,
-        message: "Removed invoice"
+        message: 'Removed invoice'
     })
 };
 
