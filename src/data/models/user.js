@@ -17,35 +17,35 @@ class UserModel {
             company : {
                 name: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 nip: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 regon: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 street: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 buildingNumber: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 flatNumber: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 city: {
                     type: String,
-                    default: ''
+                    default: ' '
                 },
                 postalCode: {
                     type: String,
-                    default: ''
+                    default: ' '
                 }
             },
             isConfirmed: {
