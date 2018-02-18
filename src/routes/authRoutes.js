@@ -28,7 +28,6 @@ class AuthRouter {
         }, async (req, email, password, done) => {
             let foundUser = await User.findOne({email});
             if(!foundUser) {
-
                 new User({
                     email,
                     password: bcrypt.hashSync(password),
@@ -85,13 +84,12 @@ class AuthRouter {
 const _sendConfirmationMail = (email, id) => {
     return new Promise((resolve, reject) => {
         const token = jwt.sign({id}, config.JWT_SECRET);
-
         let mailOptions = {
             from: config.EMAIL.USER,
             to: (config.TESTING ? config.TEST_EMAILS : email),
             subject: 'Invoices - potwierdzenie rejestracji',
             text: 'Hello world?',
-            html: require('./email/emailContent')
+            html: require('./email/emailContent')(token)
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
