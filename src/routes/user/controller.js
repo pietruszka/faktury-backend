@@ -3,10 +3,10 @@ const Invoice = (require('./../../data/db').getConnection()).model('Invoice');
 const User = (require('./../../data/db').getConnection()).model('User');
 
 const changeUserData = async (req, res) => {
-    req.checkBody('companyName').exists();
+    req.checkBody('name').exists();
     req.checkBody('nip')
         .exists()
-        .isLength({min: 10, max: 10})
+        .isLength({min: 10, max: 10});
     req.checkBody('regon')
         .exists()
         .isLength({min: 7, max: 14});
@@ -25,7 +25,7 @@ const changeUserData = async (req, res) => {
     }
 
     const {
-        companyName,
+        name,
         nip,
         regon,
         street,
@@ -36,7 +36,7 @@ const changeUserData = async (req, res) => {
     } = req.body;
 
     const company = {
-        name: companyName,
+        name,
         nip,
         regon,
         street,
@@ -53,7 +53,7 @@ const changeUserData = async (req, res) => {
 
     res.json({
         success: true,
-        message: "User data changed."
+        message: 'User data changed.'
     })
 
 };
@@ -98,7 +98,7 @@ const getUserData = async (req, res) => {
 
     res.json({
         success: true,
-        message: "Send user data.",
+        message: 'Send user data.',
         result: result[0]
     })
 

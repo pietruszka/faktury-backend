@@ -1,4 +1,4 @@
-const router = require("express").Router;
+const router = require('express').Router;
 const InvoiceRouter = require('./invoice');
 const FileRouter = require('./files');
 const AuthRouter = require('./authRoutes');

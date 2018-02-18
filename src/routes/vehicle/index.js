@@ -1,9 +1,9 @@
-const router = require("express").Router;
+const router = require('express').Router;
 const authCheck = require('./../authMiddleware');
 const {
     addVehicle,
     removeVehicle
-} = require("./controller");
+} = require('./controller');
 class UserRouter {
     constructor() {
         this.router = router();

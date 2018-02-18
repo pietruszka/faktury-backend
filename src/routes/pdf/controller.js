@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require("bcrypt-nodejs");
-const PDFdocument = require("pdfkit");
+const bcrypt = require('bcrypt-nodejs');
+const PDFdocument = require('pdfkit');
 const PdfTable = require('voilab-pdf-table');
-const fs = require("fs");
-const User = (require('./../../data/db').getConnection()).model("User");
-const Invoice = (require('./../../data/db').getConnection()).model("Invoice");
+const fs = require('fs');
+const User = (require('./../../data/db').getConnection()).model('User');
+const Invoice = (require('./../../data/db').getConnection()).model('Invoice');
 const config = require('./../../data/config');
 
 const generatePDFInvoice = async (req, res) => {

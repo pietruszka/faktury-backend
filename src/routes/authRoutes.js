@@ -52,18 +52,19 @@ class AuthRouter {
         }, async (req, email, password, done) => {
             let foundUser = await User.findOne({email});
             if(!foundUser) {
-                done(null, {success: {success: false, message: "Account doesn't exist"}});
+                return done(null, {success: {success: false, message: "Account doesn't exist"}});
             } else {
                 if(!foundUser.isConfirmed) {
                     return done(null, {success: false, message: "Account is not activated"});
                 }
                 if(bcrypt.compareSync(password, foundUser.password)){
                     const token = jwt.sign({id: foundUser._id}, config.JWT_SECRET);
-                    done(null, {success: true, token});
+                    return done(null, {success: true, token});
                 } else {
-                    done(null, {success: false, message: "Wrong password"});
+                    return done(null, {success: false, message: "Wrong password"});
                 }
             }
+            return done(null, {success: false, message: "Err"});
         }));
         this.router.post('/api/login', passport.authenticate('local-login'), (req, res) => {
             res.json(req.user)
@@ -90,7 +91,7 @@ const _sendConfirmationMail = (email, id) => {
             to: (config.TESTING ? config.TEST_EMAILS : email),
             subject: 'Invoices - potwierdzenie rejestracji',
             text: 'Hello world?',
-            html: `<a href="http://localhost:${config.PORT}/api/confirm?token=${token}">Potwierdź</a>`
+            html: require('./email/emailContent')
         };
 
         transporter.sendMail(mailOptions, (error, info) => {
