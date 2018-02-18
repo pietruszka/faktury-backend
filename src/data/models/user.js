@@ -15,14 +15,38 @@ class UserModel {
             invoices: [mongoose.Schema.Types.ObjectId],
             vehicles: [mongoose.Schema.Types.ObjectId],
             company : {
-                name: String,
-                nip: String,
-                regon: String,
-                street: String,
-                buildingNumber: String,
-                flatNumber: String,
-                city: String,
-                postalCode: String
+                name: {
+                    type: String,
+                    default: ''
+                },
+                nip: {
+                    type: String,
+                    default: ''
+                },
+                regon: {
+                    type: String,
+                    default: ''
+                },
+                street: {
+                    type: String,
+                    default: ''
+                },
+                buildingNumber: {
+                    type: String,
+                    default: ''
+                },
+                flatNumber: {
+                    type: String,
+                    default: ''
+                },
+                city: {
+                    type: String,
+                    default: ''
+                },
+                postalCode: {
+                    type: String,
+                    default: ''
+                }
             },
             isConfirmed: {
                 type: Boolean,
